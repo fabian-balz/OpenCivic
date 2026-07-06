@@ -26,3 +26,7 @@ Vorlage: [`template.md`](template.md).
 | ADR | Titel | Status |
 |---|---|---|
 | [0001](0001-lizenzmodell-split.md) | Split-Lizenzmodell (AGPL-3.0 + Apache-2.0) | Accepted |
+| [0002](0002-architekturstil-modular-monolith.md) | Architekturstil: Modularer Monolith mit Extraktions-Nähten | Accepted |
+| [0003](0003-plattformkern-und-modulschnitt.md) | Plattformkern vs. Fachmodule (Modulschnitt) | Accepted |
+| [0004](0004-kanonischer-datenfluss-medallion-provenance.md) | Kanonischer Datenfluss: Medallion + Provenance-First | Accepted |
+| [0005](0005-repo-strategie-monorepo.md) | Repo-Strategie: Monorepo | Accepted (provisorisch) |

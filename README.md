@@ -47,6 +47,9 @@ Das strategische Fundament (Vision → Roadmap) liegt in
 [`docs/foundation/`](docs/foundation/). Empfohlener Einstieg:
 [`docs/foundation/README.md`](docs/foundation/README.md).
 
+Die **Architektur** liegt in [`docs/architecture/`](docs/architecture/) — Einstieg:
+[Makro-Architektur & Modulschnitt](docs/architecture/01-macro-architecture.md).
+
 Architektur- und Technologieentscheidungen werden als **ADRs** unter
 [`docs/adr/`](docs/adr/) dokumentiert — jede Entscheidung begründet, mit Alternativen.
 
