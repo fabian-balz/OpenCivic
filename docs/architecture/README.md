@@ -18,10 +18,11 @@ Dieses Verzeichnis beschreibt die Architektur von OpenCivic. Es baut direkt auf 
 | Dokument | Inhalt |
 |---|---|
 | [01 — Makro-Architektur & Modulschnitt](01-macro-architecture.md) | Architekturstil, Plattformkern vs. Fachmodule, kanonischer Datenfluss, Modul-Kommunikation, Deployment-Profile |
+| [02 — Provenance-Datenmodell](02-provenance-model.md) | Quelle → Version → Aussage; W3C-PROV-Mapping, Bitemporalität, Lifecycle, Jurisdiktions-/Referenzachse, Zitierbarkeit |
 
-Weitere Topics folgen als eigene Dokumente/ADRs (Provenance-Datenmodell, Sprachen/Backend/
-Frontend, API-Design & -Versionierung, Datenbanken/Suche/Vektor, ETL/Events, Auth, KI/RAG,
-Infra/IaC/CI-CD/Observability/Security, Plugin-System, i18n/a11y/Performance/Offline/SEO).
+Weitere Topics folgen als eigene Dokumente/ADRs (Sprachen/Backend/Frontend, API-Design &
+-Versionierung, Datenbanken/Suche/Vektor, ETL/Events, Auth, KI/RAG, Infra/IaC/CI-CD/
+Observability/Security, Plugin-System, i18n/a11y/Performance/Offline/SEO).
 
 ## Methodik
 
@@ -39,3 +40,6 @@ Infra/IaC/CI-CD/Observability/Security, Plugin-System, i18n/a11y/Performance/Off
 | [0003](../adr/0003-plattformkern-und-modulschnitt.md) | Plattformkern vs. Fachmodule (Modulschnitt) |
 | [0004](../adr/0004-kanonischer-datenfluss-medallion-provenance.md) | Kanonischer Datenfluss: Medallion + Provenance-First |
 | [0005](../adr/0005-repo-strategie-monorepo.md) | Repo-Strategie: Monorepo (provisorisch) |
+| [0006](../adr/0006-provenance-modell-w3c-prov.md) | Provenance-Modell auf Basis von W3C PROV |
+| [0007](../adr/0007-bitemporal-append-only-lifecycle.md) | Bitemporalität, Append-Only-Historie & Statement-Lifecycle |
+| [0008](../adr/0008-jurisdiktions-und-referenzdaten-achse.md) | Jurisdiktions- und Referenzdaten-Achse |

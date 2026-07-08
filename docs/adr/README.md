@@ -30,3 +30,6 @@ Vorlage: [`template.md`](template.md).
 | [0003](0003-plattformkern-und-modulschnitt.md) | Plattformkern vs. Fachmodule (Modulschnitt) | Accepted |
 | [0004](0004-kanonischer-datenfluss-medallion-provenance.md) | Kanonischer Datenfluss: Medallion + Provenance-First | Accepted |
 | [0005](0005-repo-strategie-monorepo.md) | Repo-Strategie: Monorepo | Accepted (provisorisch) |
+| [0006](0006-provenance-modell-w3c-prov.md) | Provenance-Modell auf Basis von W3C PROV | Accepted |
+| [0007](0007-bitemporal-append-only-lifecycle.md) | Bitemporalität, Append-Only-Historie & Statement-Lifecycle | Accepted |
+| [0008](0008-jurisdiktions-und-referenzdaten-achse.md) | Jurisdiktions- und Referenzdaten-Achse | Accepted |
