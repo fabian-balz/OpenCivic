@@ -33,3 +33,6 @@ Vorlage: [`template.md`](template.md).
 | [0006](0006-provenance-modell-w3c-prov.md) | Provenance-Modell auf Basis von W3C PROV | Accepted |
 | [0007](0007-bitemporal-append-only-lifecycle.md) | Bitemporalität, Append-Only-Historie & Statement-Lifecycle | Accepted |
 | [0008](0008-jurisdiktions-und-referenzdaten-achse.md) | Jurisdiktions- und Referenzdaten-Achse | Accepted |
+| [0009](0009-programmiersprachen-typescript-python.md) | Programmiersprachen: TypeScript (primär) + Python (Connectors) | Accepted |
+| [0010](0010-backend-framework-nodejs-fastify.md) | Backend-Laufzeit & Framework: Node.js + Fastify | Accepted |
+| [0011](0011-frontend-framework-sveltekit.md) | Frontend-Framework: SvelteKit | Accepted |

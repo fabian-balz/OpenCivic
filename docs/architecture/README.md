@@ -19,10 +19,11 @@ Dieses Verzeichnis beschreibt die Architektur von OpenCivic. Es baut direkt auf 
 |---|---|
 | [01 — Makro-Architektur & Modulschnitt](01-macro-architecture.md) | Architekturstil, Plattformkern vs. Fachmodule, kanonischer Datenfluss, Modul-Kommunikation, Deployment-Profile |
 | [02 — Provenance-Datenmodell](02-provenance-model.md) | Quelle → Version → Aussage; W3C-PROV-Mapping, Bitemporalität, Lifecycle, Jurisdiktions-/Referenzachse, Zitierbarkeit |
+| [03 — Programmiersprachen, Backend, Frontend](03-languages-backend-frontend.md) | TypeScript + Python, Node.js/Fastify, SvelteKit — begründet gegen die priorisierten Qualitätsattribute |
 
-Weitere Topics folgen als eigene Dokumente/ADRs (Sprachen/Backend/Frontend, API-Design &
--Versionierung, Datenbanken/Suche/Vektor, ETL/Events, Auth, KI/RAG, Infra/IaC/CI-CD/
-Observability/Security, Plugin-System, i18n/a11y/Performance/Offline/SEO).
+Weitere Topics folgen als eigene Dokumente/ADRs (API-Design & -Versionierung, Datenbanken/Suche/
+Vektor, ETL/Events, Auth, KI/RAG, Infra/IaC/CI-CD/Observability/Security, Repo-/Build-System,
+Plugin-System, i18n/a11y/Performance/Offline/SEO).
 
 ## Methodik
 
@@ -43,3 +44,6 @@ Observability/Security, Plugin-System, i18n/a11y/Performance/Offline/SEO).
 | [0006](../adr/0006-provenance-modell-w3c-prov.md) | Provenance-Modell auf Basis von W3C PROV |
 | [0007](../adr/0007-bitemporal-append-only-lifecycle.md) | Bitemporalität, Append-Only-Historie & Statement-Lifecycle |
 | [0008](../adr/0008-jurisdiktions-und-referenzdaten-achse.md) | Jurisdiktions- und Referenzdaten-Achse |
+| [0009](../adr/0009-programmiersprachen-typescript-python.md) | Programmiersprachen: TypeScript (primär) + Python (Connectors) |
+| [0010](../adr/0010-backend-framework-nodejs-fastify.md) | Backend-Laufzeit & Framework: Node.js + Fastify |
+| [0011](../adr/0011-frontend-framework-sveltekit.md) | Frontend-Framework: SvelteKit |
