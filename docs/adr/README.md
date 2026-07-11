@@ -36,3 +36,19 @@ Vorlage: [`template.md`](template.md).
 | [0009](0009-programmiersprachen-typescript-python.md) | Programmiersprachen: TypeScript (primär) + Python (Connectors) | Accepted |
 | [0010](0010-backend-framework-nodejs-fastify.md) | Backend-Laufzeit & Framework: Node.js + Fastify | Accepted |
 | [0011](0011-frontend-framework-sveltekit.md) | Frontend-Framework: SvelteKit | Accepted |
+| [0012](0012-api-stil-rest-openapi.md) | API-Stil & Contract-Format: REST + OpenAPI 3.1 | Accepted |
+| [0013](0013-api-versionierung.md) | API-Versionierung: URI-Pfad-Major + additive Evolution | Accepted |
+| [0014](0014-primaere-datenbank-postgresql.md) | Primäre Datenbank: PostgreSQL | Accepted |
+| [0015](0015-suche-und-vektorsuche.md) | Suche & Vektorsuche: Postgres-FTS/pgvector → OpenSearch/Qdrant | Accepted |
+| [0016](0016-pipeline-orchestrierung.md) | Pipeline-Orchestrierung: in-Prozess, Python-Connectors als Subprozess | Accepted |
+| [0017](0017-event-bus.md) | Event-Bus: Postgres-Outbox → NATS | Accepted |
+| [0018](0018-authn-authz-oidc-rbac.md) | AuthN/AuthZ: OIDC + pluggable IdP, RBAC | Accepted |
+| [0019](0019-llm-abstraktion-striktes-rag.md) | LLM-Provider-Abstraktion & striktes Zitier-RAG | Accepted |
+| [0020](0020-plugin-erweiterungsmechanismus.md) | Plugin-Erweiterungsmechanismus (Fastify + Manifest) | Accepted |
+| [0021](0021-i18n-icu-intl.md) | Internationalisierung: ICU MessageFormat + Web-Intl | Accepted |
+| [0022](0022-web-plattform-baseline.md) | Web-Plattform-Baseline: a11y/Performance/Offline/SEO | Accepted |
+| [0023](0023-build-task-tooling.md) | Build-/Task-Tooling: pnpm-Workspaces + Nx, Poetry | Accepted |
+| [0024](0024-iac-kubernetes.md) | IaC & Orchestrierung: OpenTofu + Kubernetes/k3s | Accepted |
+| [0025](0025-ci-cd.md) | CI/CD: GitHub Actions mit portabler CI-Logik | Accepted |
+| [0026](0026-observability-opentelemetry.md) | Observability: OpenTelemetry + Grafana-Stack | Accepted |
+| [0027](0027-security-baseline.md) | Security-Baseline: SBOM, Scanning, Sigstore, reproduzierbare Builds | Accepted |
