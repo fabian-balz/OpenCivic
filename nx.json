@@ -1,0 +1,20 @@
+{
+  "$schema": "./node_modules/nx/schemas/nx-schema.json",
+  "//": "SPDX-FileCopyrightText: 2026 OpenCivic Contributors — SPDX-License-Identifier: Apache-2.0. Task-/Build-Orchestrierung gemäß ADR-0023 (pnpm-Workspaces + Nx). Die portable Task-Schicht ist das Makefile (ADR-0025); Nx liefert affected-Builds & Caching.",
+  "namedInputs": {
+    "default": ["{projectRoot}/**/*"],
+    "production": ["default", "!{projectRoot}/**/*.test.ts"]
+  },
+  "targetDefaults": {
+    "build": {
+      "dependsOn": ["^build"],
+      "cache": true
+    },
+    "test": {
+      "cache": true
+    },
+    "typecheck": {
+      "cache": true
+    }
+  }
+}

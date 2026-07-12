@@ -29,8 +29,10 @@ Dieses Verzeichnis beschreibt die Architektur von OpenCivic. Es baut direkt auf 
 | [10 — i18n, a11y, Performance, Offline & SEO](10-i18n-a11y-performance.md) | ICU/Intl, WCAG-2.2-AA-CI-Gate, Core-Web-Vitals, Read-Only-PWA, schema.org aus Provenance |
 | [11 — Repo- & Build-System](11-repo-build-system.md) | pnpm-Workspaces + Nx, Poetry — vertieft die Monorepo-Strategie |
 | [12 — Infrastruktur, IaC, CI/CD, Observability & Security](12-infrastructure-operations.md) | OpenTofu + Kubernetes/k3s, portable CI/CD, OpenTelemetry/Grafana, SBOM/Sigstore |
+| [13 — MVP: OpenBudget-Durchstich](13-mvp-openbudget.md) | Walking Skeleton (Phase 2): wie der lauffähige Code die ADRs materialisiert und den Quellenzwang beweist |
 
-Damit ist die Architektur-Phase (Phase 1) inhaltlich vollständig für den MVP-Durchstich.
+Damit ist die Architektur-Phase (Phase 1) inhaltlich vollständig; Topic 13 dokumentiert den
+ersten lauffähigen Durchstich (Phase 2).
 
 ## Methodik
 

@@ -1,0 +1,25 @@
+{
+  "name": "opencivic",
+  "version": "0.0.0",
+  "private": true,
+  "description": "OpenCivic — free software that makes state action transparent and verifiable. Monorepo root.",
+  "license": "AGPL-3.0-or-later",
+  "packageManager": "pnpm@10.33.0",
+  "engines": {
+    "node": ">=22"
+  },
+  "type": "module",
+  "scripts": {
+    "typecheck": "tsc --noEmit -p packages/provenance/tsconfig.json && tsc --noEmit -p apps/api/tsconfig.json",
+    "test": "vitest run",
+    "ingest": "tsx packages/provenance/src/cli/ingest.ts",
+    "migrate": "tsx packages/provenance/src/cli/migrate.ts",
+    "api": "tsx apps/api/src/server.ts"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.0",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.2",
+    "vitest": "^2.1.8"
+  }
+}
