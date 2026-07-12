@@ -19,8 +19,28 @@ verweist nachvollziehbar auf ein amtliches Original.
 
 ## Status
 
-🚧 **Phase 0 — Konzeption.** Das Projekt befindet sich in der Fundamentphase. Es gibt noch
-keinen Anwendungscode. Aktuell entstehen die strategischen Grundlagen und Architektur­entscheidungen.
+🌱 **Phase 2 — MVP (Walking Skeleton).** Fundament (Vision → Roadmap) und Architektur (27 ADRs)
+stehen. Der erste lauffähige, quellenbelegte Durchstich **OpenData → OpenBudget** ist umgesetzt:
+Import-Pipeline → Provenance-Speicher → API → barrierefreies, mobiles Frontend → Suche. Siehe
+[`docs/architecture/13-mvp-openbudget.md`](docs/architecture/13-mvp-openbudget.md).
+
+## Schnellstart (lokal, ohne Docker)
+
+Voraussetzungen: Node ≥ 22, pnpm, Python ≥ 3.11, lokales PostgreSQL 16.
+
+```bash
+make install      # Abhängigkeiten (pnpm; Poetry optional)
+make db-up        # lokalen PostgreSQL-Cluster starten (Solo-Profil)
+make migrate      # Datenbankschema anwenden
+make ingest       # Beispiel-Haushalt importieren (Bronze → Statements mit Provenance)
+make test         # vitest (Quellenzwang, Citation, Suche, API) + pytest (Connector)
+make api          # API auf http://127.0.0.1:3001  (/v1/..., /openapi.json)
+```
+
+Web-Frontend: `make web-build`, dann `cd apps/web && OPENCIVIC_API_URL=http://127.0.0.1:3001 node build`
+(SSR auf http://127.0.0.1:3000 — funktioniert auch ohne JavaScript).
+
+`make verify` führt DB → Migration → Ingest → Tests am Stück aus.
 
 ## Was hier (noch) nicht ist — Nicht-Ziele
 
@@ -46,6 +66,9 @@ Primärquellen. Details in [`docs/foundation/05-nicht-ziele.md`](docs/foundation
 Das strategische Fundament (Vision → Roadmap) liegt in
 [`docs/foundation/`](docs/foundation/). Empfohlener Einstieg:
 [`docs/foundation/README.md`](docs/foundation/README.md).
+
+Die **Architektur** liegt in [`docs/architecture/`](docs/architecture/) — Einstieg:
+[Makro-Architektur & Modulschnitt](docs/architecture/01-macro-architecture.md).
 
 Architektur- und Technologieentscheidungen werden als **ADRs** unter
 [`docs/adr/`](docs/adr/) dokumentiert — jede Entscheidung begründet, mit Alternativen.

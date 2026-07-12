@@ -1,0 +1,26 @@
+# SPDX-FileCopyrightText: 2026 OpenCivic Contributors
+# SPDX-License-Identifier: Apache-2.0
+[tool.poetry]
+name = "openbudget-de"
+version = "0.1.0"
+description = "OpenCivic OpenData-Connector: Bundeshaushalt (Bronze-Snapshot). Apache-2.0."
+authors = ["OpenCivic Contributors"]
+license = "Apache-2.0"
+packages = [{ include = "openbudget_de" }]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.0"
+
+[tool.poetry.scripts]
+openbudget-de = "openbudget_de.cli:main"
+
+[build-system]
+requires = ["poetry-core>=1.9.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]

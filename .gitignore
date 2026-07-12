@@ -1,0 +1,30 @@
+# Dependencies
+node_modules/
+.pnpm-store/
+connectors/**/.venv/
+**/__pycache__/
+**/.pytest_cache/
+*.egg-info/
+
+# Build outputs
+dist/
+build/
+.svelte-kit/
+*.tsbuildinfo
+
+# Local Postgres cluster (dev only, never committed)
+.pgdata/
+*.pglog
+
+# Ingest working area
+.bronze/
+
+# Env / secrets
+.env
+.env.*
+!.env.example
+
+# Editor / OS
+.DS_Store
+.idea/
+.vscode/
