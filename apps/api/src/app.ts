@@ -7,10 +7,24 @@
 
 import Fastify, { type FastifyInstance } from 'fastify';
 import swagger from '@fastify/swagger';
-import { listBudgetStatements, getStatement, resolveProvenance } from '@opencivic/provenance';
+import { getStatement, resolveProvenance } from '@opencivic/provenance';
+import { ModuleRegistry } from '@opencivic/module-sdk';
+import openbudget from '@opencivic/module-openbudget';
+import { instrumentApp } from './telemetry.ts';
 
-export async function buildApp(): Promise<FastifyInstance> {
-  const app = Fastify({ logger: false });
+/** Registriert die aktiven Fachmodule (ADR-0003/0020). Neue Module hier ergänzen. */
+export function buildRegistry(): ModuleRegistry {
+  return new ModuleRegistry().register(openbudget);
+}
+
+export async function buildApp(
+  registry: ModuleRegistry = buildRegistry(),
+  options: { logger?: boolean } = {},
+): Promise<FastifyInstance> {
+  const app = Fastify({ logger: options.logger ?? false });
+
+  // Observability zuerst, damit jeder Request einen Span erhält (ADR-0026).
+  instrumentApp(app);
 
   await app.register(swagger, {
     openapi: {
@@ -19,41 +33,25 @@ export async function buildApp(): Promise<FastifyInstance> {
         title: 'OpenCivic API',
         version: '1.0.0',
         description:
-          'Öffentliche, quellenbelegte API für OpenBudget. Jede Aussage ist über /v1/provenance/{id} bis zur Quelle nachvollziehbar.',
+          'Öffentliche, quellenbelegte API. Jede Aussage ist über /v1/provenance/{id} bis zur Quelle nachvollziehbar.',
       },
       servers: [{ url: '/' }],
     },
   });
 
-  app.get('/health', { schema: { hide: true } }, async () => ({ status: 'ok' }));
+  app.get('/health', { schema: { hide: true } }, async () => ({
+    status: 'ok',
+    modules: registry.all().map((m) => ({ id: m.id, version: m.version })),
+  }));
 
   app.get('/openapi.json', { schema: { hide: true } }, async () => app.swagger());
 
-  // Liste der aktuellen Budget-Aussagen, optional volltextgefiltert (Postgres-FTS, ADR-0015).
-  app.get(
-    '/v1/budget/statements',
-    {
-      schema: {
-        description: 'Aktuelle OpenBudget-Aussagen; optionale Volltextsuche via q.',
-        querystring: {
-          type: 'object',
-          properties: {
-            q: { type: 'string', description: 'Volltext-Suchbegriff' },
-            limit: { type: 'integer', minimum: 1, maximum: 500, default: 100 },
-          },
-        },
-      },
-    },
-    async (req) => {
-      const { q, limit } = req.query as { q?: string; limit?: number };
-      const items = await listBudgetStatements({ q, limit });
-      return {
-        count: items.length,
-        items: items.map((s) => ({ ...s, provenance: { href: `/v1/provenance/${s.id}` } })),
-      };
-    },
-  );
+  // Fachmodule steuern ihre Domänen-Routen als Fastify-Plugins bei (Extension-Point, ADR-0020).
+  for (const module of registry.all()) {
+    await app.register(module.apiPlugin);
+  }
 
+  // Provenance-Kernrouten (modulübergreifend).
   app.get('/v1/statements/:id', async (req, reply) => {
     const { id } = req.params as { id: string };
     const s = await getStatement(id);

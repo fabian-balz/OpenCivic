@@ -1,0 +1,15 @@
+{
+  "name": "@opencivic/module-sdk",
+  "version": "0.1.0",
+  "description": "OpenCivic Modul-SDK: Manifest & Registry für Fachmodule (Fastify-Plugin als Extension-Point). Apache-2.0.",
+  "license": "Apache-2.0",
+  "type": "module",
+  "main": "./src/index.ts",
+  "exports": { ".": "./src/index.ts" },
+  "scripts": {
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "fastify": "^5.2.0"
+  }
+}

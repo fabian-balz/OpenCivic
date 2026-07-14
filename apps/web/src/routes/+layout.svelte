@@ -4,14 +4,16 @@
 -->
 <script>
   import '../app.css';
-  let { children } = $props();
+  import { translator } from '$lib/i18n';
+  let { children, data } = $props();
+  const t = $derived(translator(data.locale));
 </script>
 
-<a class="skip-link" href="#main">Zum Inhalt springen</a>
+<a class="skip-link" href="#main">{t('skip')}</a>
 
 <header class="site">
   <div class="container">
-    <a href="/">OpenCivic · OpenBudget</a>
+    <a href="/">{t('brand')}</a>
   </div>
 </header>
 
@@ -21,10 +23,6 @@
 
 <footer class="site">
   <div class="container">
-    <p>
-      OpenCivic — staatliches Handeln nachvollziehbar machen. Jede Zahl ist quellenbelegt.
-      Freie Software (AGPL-3.0). Angezeigte Werte stammen aus einem Beispiel-Sample und sind
-      <strong>nicht amtlich</strong>.
-    </p>
+    <p>{t('footer')}</p>
   </div>
 </footer>

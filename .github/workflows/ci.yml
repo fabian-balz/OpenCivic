@@ -1,0 +1,85 @@
+# SPDX-FileCopyrightText: 2026 OpenCivic Contributors
+# SPDX-License-Identifier: AGPL-3.0-or-later
+#
+# CI (ADR-0025): dünne Trigger-Schicht über portablen Make-Targets — kein Lock-in in
+# Marketplace-Actions. Migration zu Forgejo/Woodpecker bleibt möglich (P3/P8).
+# ADR-0027: Actions sollten auf Commit-SHA gepinnt werden. TODO: Tags unten durch SHAs ersetzen.
+
+name: CI
+
+on:
+  push:
+    branches: ['**']
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  build-test:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16 # TODO: auf Image-Digest pinnen (ADR-0027)
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: opencivic
+        ports: ['5432:5432']
+        options: >-
+          --health-cmd "pg_isready -U postgres"
+          --health-interval 10s --health-timeout 5s --health-retries 5
+    env:
+      PGHOST: localhost
+      PGPORT: '5432'
+      PGUSER: postgres
+      PGPASSWORD: postgres
+      PGDATABASE: opencivic
+      DATABASE_URL: postgresql://postgres:postgres@localhost:5432/opencivic
+    steps:
+      - uses: actions/checkout@v4 # TODO SHA-Pin
+
+      - uses: pnpm/action-setup@v4 # TODO SHA-Pin
+        with:
+          version: '10'
+
+      - uses: actions/setup-node@v4 # TODO SHA-Pin
+        with:
+          node-version: '22'
+          cache: pnpm
+
+      - uses: actions/setup-python@v5 # TODO SHA-Pin
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          pnpm install --frozen-lockfile
+          python -m pip install --quiet pytest
+
+      - name: Install Playwright Chromium
+        run: pnpm --filter @opencivic/web exec playwright install --with-deps chromium
+
+      - name: License / SPDX check
+        run: make license-check
+
+      - name: Typecheck
+        run: make typecheck
+
+      - name: Migrate & ingest
+        run: make migrate ingest
+
+      - name: Tests (vitest + pytest)
+        run: make test
+
+      - name: Accessibility gate (WCAG 2.2 AA)
+        run: make a11y
+
+      - name: SBOM (CycloneDX)
+        run: make sbom
+
+      - name: Upload SBOM
+        uses: actions/upload-artifact@v4 # TODO SHA-Pin
+        with:
+          name: sbom
+          path: sbom.json
