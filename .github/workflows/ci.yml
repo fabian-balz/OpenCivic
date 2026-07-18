@@ -39,9 +39,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4 # TODO SHA-Pin
 
+      # pnpm-Version stammt aus package.json ("packageManager") — hier NICHT doppelt angeben
+      # (pnpm/action-setup v4 bricht bei doppelter Angabe mit ERR_PNPM_BAD_PM_VERSION ab).
       - uses: pnpm/action-setup@v4 # TODO SHA-Pin
-        with:
-          version: '10'
 
       - uses: actions/setup-node@v4 # TODO SHA-Pin
         with:
