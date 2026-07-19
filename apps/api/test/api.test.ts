@@ -23,10 +23,12 @@ afterAll(async () => {
 });
 
 describe('OpenCivic API', () => {
-  it('GET /health', async () => {
+  it('GET /health nennt Status und registrierte Module', async () => {
     const res = await app.inject({ method: 'GET', url: '/health' });
     expect(res.statusCode).toBe(200);
-    expect(res.json()).toEqual({ status: 'ok' });
+    const body = res.json();
+    expect(body.status).toBe('ok');
+    expect(body.modules.map((m: { id: string }) => m.id)).toContain('openbudget');
   });
 
   it('GET /openapi.json liefert eine gültige OpenAPI-3.1-Spezifikation', async () => {

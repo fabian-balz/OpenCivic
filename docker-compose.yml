@@ -1,0 +1,53 @@
+# SPDX-FileCopyrightText: 2026 OpenCivic Contributors
+# SPDX-License-Identifier: AGPL-3.0-or-later
+#
+# Standard-Deployment-Profil (ADR-0002): entkoppelte Datenhaltung + API + Web.
+# Solo-Betreiber können stattdessen `make db-up && make api` ohne Container nutzen.
+# TODO (ADR-0027): Image-Tags auf Digests pinnen.
+
+services:
+  db:
+    image: postgres:16
+    environment:
+      POSTGRES_USER: ${PGUSER:-opencivic}
+      POSTGRES_PASSWORD: ${PGPASSWORD:-changeme}
+      POSTGRES_DB: ${PGDATABASE:-opencivic}
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U ${PGUSER:-opencivic}']
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Einmaliger Init-Job: Schema anlegen + Sample importieren.
+  migrate:
+    build: { context: ., dockerfile: apps/api/Dockerfile }
+    command: ['sh', '-c', 'pnpm migrate && pnpm ingest']
+    environment:
+      DATABASE_URL: postgresql://${PGUSER:-opencivic}:${PGPASSWORD:-changeme}@db:5432/${PGDATABASE:-opencivic}
+    depends_on:
+      db: { condition: service_healthy }
+    restart: 'no'
+
+  api:
+    build: { context: ., dockerfile: apps/api/Dockerfile }
+    environment:
+      DATABASE_URL: postgresql://${PGUSER:-opencivic}:${PGPASSWORD:-changeme}@db:5432/${PGDATABASE:-opencivic}
+    depends_on:
+      db: { condition: service_healthy }
+      migrate: { condition: service_completed_successfully }
+    ports:
+      - '${API_PORT:-3001}:3001'
+
+  web:
+    build: { context: ., dockerfile: apps/web/Dockerfile }
+    environment:
+      OPENCIVIC_API_URL: http://api:3001
+    depends_on:
+      - api
+    ports:
+      - '${WEB_PORT:-3000}:3000'
+
+volumes:
+  db-data:

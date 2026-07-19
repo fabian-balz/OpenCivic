@@ -4,15 +4,18 @@
 -->
 <script lang="ts">
   import { formatEur } from '$lib/format';
+  import { translator } from '$lib/i18n';
   let { data } = $props();
+  const t = $derived(translator(data.locale));
   const s = data.statement;
   const c = data.citation;
+  const year = s.validFrom?.slice(0, 4);
 
   // schema.org/JSON-LD direkt aus dem Provenance-Modell (ADR-0022) — keine separate SEO-Datenhaltung.
   const jsonLd = JSON.stringify({
     '@context': 'https://schema.org',
     '@type': 'Dataset',
-    name: `${s.subjectLabel} — Ansatz ${s.validFrom?.slice(0, 4)}`,
+    name: `${s.subjectLabel} — ${year}`,
     description: `Haushaltsansatz (${s.recordLocator}) aus OpenBudget, quellenbelegt.`,
     identifier: s.id,
     temporalCoverage: `${s.validFrom}/${s.validTo ?? ''}`,
@@ -20,66 +23,62 @@
     creator: { '@type': 'GovernmentOrganization', name: c.source.publisher.name },
     isBasedOn: c.source.canonicalUri ?? undefined,
     sha256: c.sourceVersion.contentHash.replace(/^sha256:/, ''),
-    variableMeasured: {
-      '@type': 'MonetaryAmount',
-      currency: 'EUR',
-      value: s.value.amount,
-    },
+    variableMeasured: { '@type': 'MonetaryAmount', currency: 'EUR', value: s.value.amount },
   });
 </script>
 
 <svelte:head>
-  <title>{s.subjectLabel} — Beleg | OpenBudget</title>
+  <title>{s.subjectLabel} — OpenBudget</title>
   {@html `<script type="application/ld+json">${jsonLd}</` + `script>`}
 </svelte:head>
 
-<p><a href="/">← Zurück zur Übersicht</a></p>
+<p><a href={`/?lang=${data.locale}`}>{t('detail.back')}</a></p>
 
 <h1>{s.subjectLabel}</h1>
 <p class="amount" style="font-size:1.5rem">
   {formatEur(s.value.amount)}
-  <span class="meta">(Ansatz {s.validFrom?.slice(0, 4)})</span>
+  <span class="meta">{t('detail.ansatz', { year })}</span>
 </p>
 <p class="meta">
-  Einzelplan {s.value.einzelplan} — {s.value.einzelplan_bezeichnung} · Position {s.recordLocator}
+  {t('home.meta', {
+    epl: s.value.einzelplan,
+    name: s.value.einzelplan_bezeichnung,
+    loc: s.recordLocator,
+  })}
 </p>
 
-<h2>Beleg (Provenance)</h2>
-<p>Diese Zahl ist auf folgende Quelle zurückführbar:</p>
+<h2>{t('detail.provTitle')}</h2>
+<p>{t('detail.provIntro')}</p>
 
 <dl class="citation">
-  <dt>Quelle</dt>
+  <dt>{t('detail.source')}</dt>
   <dd>{c.source.name}</dd>
 
-  <dt>Herausgeber</dt>
+  <dt>{t('detail.publisher')}</dt>
   <dd>{c.source.publisher.name}</dd>
 
-  <dt>Jurisdiktion</dt>
+  <dt>{t('detail.jurisdiction')}</dt>
   <dd>{c.source.jurisdiction}</dd>
 
-  <dt>Fassung</dt>
+  <dt>{t('detail.version')}</dt>
   <dd>{c.sourceVersion.upstreamVersionLabel ?? '—'}</dd>
 
-  <dt>Abgerufen am</dt>
-  <dd>{new Date(c.sourceVersion.retrievedAt).toLocaleString('de-DE')}</dd>
+  <dt>{t('detail.retrieved')}</dt>
+  <dd>{new Date(c.sourceVersion.retrievedAt).toLocaleString(data.locale)}</dd>
 
-  <dt>Lizenz</dt>
+  <dt>{t('detail.license')}</dt>
   <dd>{c.sourceVersion.license ?? '—'}</dd>
 
-  <dt>Integritäts-Hash</dt>
+  <dt>{t('detail.hash')}</dt>
   <dd class="hash">{c.sourceVersion.contentHash}</dd>
 
-  <dt>Verarbeitungsstand</dt>
+  <dt>{t('detail.processing')}</dt>
   <dd class="hash">{c.datasetVersion.codeVersion} · {c.datasetVersion.layer}</dd>
 
   {#if c.source.canonicalUri}
-    <dt>Originalquelle</dt>
+    <dt>{t('detail.original')}</dt>
     <dd><a href={c.source.canonicalUri} rel="external nofollow">{c.source.canonicalUri}</a></dd>
   {/if}
 </dl>
 
-<p class="disclaimer">
-  ⚠️ Beispiel-Sample zu Demonstrationszwecken — <strong>keine amtlichen Zahlen</strong>. Der
-  vollständige maschinenlesbare Beleg (W3C-PROV) ist über die API unter
-  <code>/v1/provenance/{s.id}</code> abrufbar.
-</p>
+<p class="disclaimer">⚠️ {t('detail.disclaimer', { path: `/v1/provenance/${s.id}` })}</p>

@@ -19,10 +19,12 @@ verweist nachvollziehbar auf ein amtliches Original.
 
 ## Status
 
-🌱 **Phase 2 — MVP (Walking Skeleton).** Fundament (Vision → Roadmap) und Architektur (27 ADRs)
-stehen. Der erste lauffähige, quellenbelegte Durchstich **OpenData → OpenBudget** ist umgesetzt:
-Import-Pipeline → Provenance-Speicher → API → barrierefreies, mobiles Frontend → Suche. Siehe
-[`docs/architecture/13-mvp-openbudget.md`](docs/architecture/13-mvp-openbudget.md).
+🌿 **Phase 2→3 — MVP + Härtung.** Fundament (Vision → Roadmap) und Architektur (27 ADRs) stehen.
+Der lauffähige, quellenbelegte Durchstich **OpenData → OpenBudget** ist umgesetzt (Import →
+Provenance → API → barrierefreies, mobiles Frontend → Suche, siehe
+[`docs/architecture/13-mvp-openbudget.md`](docs/architecture/13-mvp-openbudget.md)) und wird
+gehärtet: **Modul-/Plugin-System**, **OpenTelemetry**, **i18n (de/en)**, **WCAG-2.2-AA-CI-Gate**
+(axe), **CI/CD + SBOM** und **Self-Hosting-Profile** (Betrieb: [`docs/operations/`](docs/operations/)).
 
 ## Schnellstart (lokal, ohne Docker)
 

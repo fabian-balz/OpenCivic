@@ -4,41 +4,39 @@
 -->
 <script lang="ts">
   import { formatEur } from '$lib/format';
+  import { translator } from '$lib/i18n';
   let { data } = $props();
+  const t = $derived(translator(data.locale));
 </script>
 
 <svelte:head>
-  <title>OpenBudget — Bundeshaushalt (Beispiel) durchsuchen</title>
+  <title>{t('home.title')}</title>
 </svelte:head>
 
-<h1>Bundeshaushalt durchsuchen</h1>
-<p>
-  Ansätze (Soll) für das Haushaltsjahr 2025. Jede Position lässt sich bis zur Quelle
-  nachvollziehen.
-</p>
+<h1>{t('home.title')}</h1>
+<p>{t('home.intro')}</p>
 
 <!-- GET-Formular: funktioniert ohne JavaScript; progressive Anreicherung optional. -->
 <form class="search-form" method="GET" action="/" role="search">
-  <label for="q">Nach Zweckbestimmung suchen</label>
+  <label for="q">{t('home.searchLabel')}</label>
   <input
     id="q"
     type="search"
     name="q"
     value={data.q}
-    placeholder="z. B. Kommunen, Bildung, Verkehr"
+    placeholder={t('home.searchPlaceholder')}
     autocomplete="off"
   />
-  <button type="submit">Suchen</button>
+  <input type="hidden" name="lang" value={data.locale} />
+  <button type="submit">{t('home.searchButton')}</button>
 </form>
 
 <p aria-live="polite">
-  {data.count}
-  {data.count === 1 ? 'Position' : 'Positionen'}
-  {data.q ? `für „${data.q}“` : 'insgesamt'}.
+  {t('home.result', { count: data.count, hasQuery: data.q ? 'yes' : 'no', q: data.q })}
 </p>
 
 {#if data.items.length === 0}
-  <p>Keine Positionen gefunden.</p>
+  <p>{t('home.empty')}</p>
 {:else}
   <ul class="budget">
     {#each data.items as item (item.id)}
@@ -46,11 +44,17 @@
         <span class="amount">{formatEur(item.value.amount)}</span>
         <div>{item.subjectLabel}</div>
         <div class="meta">
-          Einzelplan {item.value.einzelplan} — {item.value.einzelplan_bezeichnung} ·
-          {item.recordLocator}
+          {t('home.meta', {
+            epl: item.value.einzelplan,
+            name: item.value.einzelplan_bezeichnung,
+            loc: item.recordLocator,
+          })}
         </div>
-        <a class="source-link" href={`/statement/${encodeURIComponent(item.id)}`}>
-          Quelle &amp; Beleg ansehen →
+        <a
+          class="source-link"
+          href={`/statement/${encodeURIComponent(item.id)}?lang=${data.locale}`}
+        >
+          {t('home.sourceLink')}
         </a>
       </li>
     {/each}

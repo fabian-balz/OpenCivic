@@ -44,11 +44,22 @@ test: test-ts test-py ## Alle Tests
 typecheck: ## TypeScript-Typprüfung über alle Pakete
 	pnpm typecheck
 
+license-check: ## SPDX/REUSE-Header aller Quelldateien prüfen (ADR-0001/0027)
+	bash scripts/license-check.sh
+
+sbom: ## Software Bill of Materials (CycloneDX, ADR-0027) nach sbom.json
+	pnpm dlx @cyclonedx/cdxgen@^11 --type pnpm --no-recurse -o sbom.json .
+
+ci: typecheck license-check test a11y sbom ## Vollständige CI-Kette (wie GitHub Actions)
+
 api: ## API-Server starten (Fastify, /v1, /openapi.json)
 	pnpm api
 
 web-build: ## Web-App bauen (SvelteKit, SSR)
 	pnpm --filter @opencivic/web build
+
+a11y: web-build ## WCAG-2.2-AA-Gate (Playwright + axe) gegen die SSR-Web-App
+	bash scripts/a11y.sh
 
 verify: db-up migrate ingest test ## Vollständiger Durchstich: DB → Migration → Ingest → Tests
 

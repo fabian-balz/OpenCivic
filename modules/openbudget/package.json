@@ -1,0 +1,17 @@
+{
+  "name": "@opencivic/module-openbudget",
+  "version": "0.1.0",
+  "description": "OpenBudget-Fachmodul: Haushalts-Routen als Fastify-Plugin. AGPL-3.0-or-later.",
+  "license": "AGPL-3.0-or-later",
+  "type": "module",
+  "main": "./src/index.ts",
+  "exports": { ".": "./src/index.ts" },
+  "scripts": {
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@opencivic/module-sdk": "workspace:*",
+    "@opencivic/provenance": "workspace:*",
+    "fastify": "^5.2.0"
+  }
+}
